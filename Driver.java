@@ -4,10 +4,10 @@ public class Driver {
 	public static void main(String args[]) {
 		
 		ArrayList<Vector> vectors = new ArrayList<Vector>();
-		vectors.add(new Vector(new double[] {0,4,1},3));
-		vectors.add(new Vector(new double[] {2,6,-2},3));
-		vectors.add(new Vector(new double[] {4,8,-5},3));
-		Vector constants = new Vector(new double[] {2,3,4},1);
+		vectors.add(new Vector(new double[] {0,1,0},3));
+		vectors.add(new Vector(new double[] {0,0,0},3));
+		vectors.add(new Vector(new double[] {1,0,0},3));
+		Vector constants = new Vector(new double[] {1,0,1},1);
 
 		String result = "";
 		

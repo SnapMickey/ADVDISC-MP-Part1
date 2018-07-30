@@ -97,13 +97,13 @@ public class Vector {
 					return returnVector;
 				}
 				
-				if(j == vectors.get(i).vector.length) {
+				if(j == vectors.get(i).vector.length - 1) {
 					swapRow(vectors, constants, i, k);
 					returnVector = null;
+					j = 0;
 					k++;
 				}
 				else {
-					j = 0;
 					j++;
 				}
 			}			
