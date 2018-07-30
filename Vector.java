@@ -132,8 +132,29 @@ public class Vector {
 	}
 	
 	public static int span(ArrayList<Vector> vectors, int dimension) {
+		Vector constants = new Vector(dimension);
+		Gauss_Jordan(vectors, dimension, constants);
+		ArrayList<Integer> span = new ArrayList<Integer>();
 		
+		for(int i=0; i < dimension; i++){
+			span.add(0);
+		}
 		
+		for(int i=0; i < dimension; i++){
+			for(int j=0; j < vectors.get(i).vector.length; j++){
+				if(span.get(i) == 0 && vectors.get(i).vector[j] == 1)
+					span.set(i, 1);
+			}
+		}
+		
+		int spanCount = 0;
+		for(int i=0; i < dimension; i++){
+			if(span.get(i) == 1)
+				spanCount++;
+		}
+		
+		System.out.println(span.get(0) + " " + span.get(1) + " " + span.get(2));
+		System.out.println("SPAN: " + spanCount);
 		return 0;
 	}
 	
