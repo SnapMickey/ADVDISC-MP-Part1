@@ -84,7 +84,7 @@ public class Vector {
 			return null;
 		
 		for(int i = 0; i < vectors.size(); i++) {
-			
+			System.out.println(i);
 			// Mismatch of vectors size and given dimension
 			if(vectors.get(i).vector.length != dimension) 
 				return null;
@@ -92,12 +92,12 @@ public class Vector {
 			int k = i;
 			int j = 0;
 			while(vectors.get(i).vector[j] == 0) {
-				if(k == vectors.size() || i == vectors.size() - 1) {
+				if(k == vectors.size() || i == vectors.size()) {
 					returnVector = null;
 					return returnVector;
 				}
 				
-				if(j == vectors.get(i).vector.length - 1) {
+				if(j == vectors.get(i).vector.length) {
 					swapRow(vectors, constants, i, k);
 					returnVector = null;
 					j = 0;
@@ -106,8 +106,8 @@ public class Vector {
 				else {
 					j++;
 				}
-			}			
-			
+			}
+
 			double leadNum = vectors.get(i).vector[j];
 			scaleRow(vectors, constants, 1/leadNum, i);
 			
@@ -155,7 +155,7 @@ public class Vector {
 		
 		System.out.println(span.get(0) + " " + span.get(1) + " " + span.get(2));
 		System.out.println("SPAN: " + spanCount);
-		return 0;
+		return spanCount;
 	}
 	
 	
