@@ -82,7 +82,7 @@ public class Vector {
 				return i;
 		return -1;
 	}
-	
+
 	public static Vector Gauss_Jordan(ArrayList<Vector> vectors, int dimension, Vector constants) {
 		Vector returnVector = constants;
 		printVectors(vectors,constants);
@@ -104,8 +104,10 @@ public class Vector {
 			
 			while(leadIndex == -1) {
 				
-				if(j == vectors.size())
-					return null;
+				if(j == vectors.size()) {
+					returnVector = null;
+					break;
+				}
 				
 				leadIndex = checkIfZeroVector(vectors.get(j));
 				
@@ -115,18 +117,20 @@ public class Vector {
 				}
 				else if(leadIndex != -1)
 					swapRow(vectors, constants, i, j);
-				else
+				else 
 					j++;
 			}
 			
-			double leadNum, curNum;
-			leadNum = vectors.get(i).vector[leadIndex];
-			scaleRow(vectors, constants, 1/leadNum, i);
-
-			for(j = i + 1; j < vectors.size(); j++) {
-				curNum = vectors.get(j).vector[leadIndex];	
-				if(curNum != 0) 
-					addScaledRowToRow(vectors, constants, -1 * curNum, j, i);
+			if(leadIndex != -1) {
+				double leadNum, curNum;
+				leadNum = vectors.get(i).vector[leadIndex];
+				scaleRow(vectors, constants, 1.0/leadNum, i);
+	
+				for(j = i + 1; j < vectors.size(); j++) {
+					curNum = vectors.get(j).vector[leadIndex];	
+					if(curNum != 0) 
+						addScaledRowToRow(vectors, constants, -1.0 * curNum, j, i);
+				}
 			}
 			
 			printVectors(vectors,constants);
@@ -134,20 +138,19 @@ public class Vector {
 		
 		for(int i = 0; i < vectors.size(); i++) 
 			if(vectors.get(i).vector[i] != 1) 
-				for(int j = i; j <  vectors.size(); j++) 
-					if(vectors.get(j).vector[i] == 1) 
+				for(int j = i; j < vectors.size(); j++) 
+					if(vectors.get(j).vector[i] == 1) {
 						swapRow(vectors, constants, i, j);
+						break;
+					}
 		
 		for(int i = vectors.size() - 1; i >= 0 ; i--) {
 			int leadIndex = checkIfZeroVector(vectors.get(i));
 			if(leadIndex != -1) {
 				for(int j = i - 1; j >= 0; j--) {
-					
-					System.out.println(j);
-					System.out.println(leadIndex);
 					double curNum = vectors.get(j).vector[leadIndex];	
 					if(curNum != 0) 
-						addScaledRowToRow(vectors, constants, -1 * curNum, j, i);
+						addScaledRowToRow(vectors, constants, -1.0 * curNum, j, i);
 				}
 			}
 			
