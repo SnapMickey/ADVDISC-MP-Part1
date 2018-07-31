@@ -86,10 +86,8 @@ public class Vector {
 	public static Vector Gauss_Jordan(ArrayList<Vector> vectors, int dimension, Vector constants) {
 		Vector returnVector = constants;
 		printVectors(vectors,constants);
+		
 		// Mismatch of vectors size and constants size
-		
-		System.out.println(dimension);
-		
 		if(vectors.size() != constants.vector.length) 
 			return null;
 		else if(vectors.size() != dimension) 
@@ -103,15 +101,19 @@ public class Vector {
 			
 			int leadIndex = checkIfZeroVector(vectors.get(i));
 			int j = i + 1;
+			
 			while(leadIndex == -1) {
+				
 				if(j == vectors.size())
 					return null;
 				
 				leadIndex = checkIfZeroVector(vectors.get(j));
 				
-				if(leadIndex == -1) 
+				if(leadIndex == -1) {
 					returnVector = null;
-				else if(leadIndex != 1)
+					j++;
+				}
+				else if(leadIndex != -1)
 					swapRow(vectors, constants, i, j);
 				else
 					j++;
