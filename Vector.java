@@ -87,8 +87,13 @@ public class Vector {
 		Vector returnVector = constants;
 		printVectors(vectors,constants);
 		// Mismatch of vectors size and constants size
+		
+		System.out.println(dimension);
+		
 		if(vectors.size() != constants.vector.length) 
 			return null;
+		else if(vectors.size() != dimension) 
+			returnVector = null;
 		
 		for(int i = 0; i < vectors.size(); i++) {
 		
@@ -133,19 +138,19 @@ public class Vector {
 		
 		printVectors(vectors,constants);
 		
-		return constants;
+		return returnVector;
 	}
 	
 	public static int span(ArrayList<Vector> vectors, int dimension) {
-		Vector constants = new Vector(dimension);
+		Vector constants = new Vector(vectors.size());
 		Gauss_Jordan(vectors, dimension, constants);
 		ArrayList<Integer> span = new ArrayList<Integer>();
 		
-		for(int i=0; i < dimension; i++){
+		for(int i=0; i < vectors.size(); i++){
 			span.add(0);
 		}
 		
-		for(int i=0; i < dimension; i++){
+		for(int i=0; i < vectors.size(); i++){
 			for(int j=0; j < vectors.get(i).vector.length; j++){
 				if(span.get(i) == 0 && vectors.get(i).vector[j] == 1)
 					span.set(i, 1);
@@ -153,12 +158,11 @@ public class Vector {
 		}
 		
 		int spanCount = 0;
-		for(int i=0; i < dimension; i++){
+		for(int i=0; i < vectors.size(); i++){
 			if(span.get(i) == 1)
 				spanCount++;
 		}
 		
-		System.out.println(span.get(0) + " " + span.get(1) + " " + span.get(2));
 		System.out.println("SPAN: " + spanCount);
 		return spanCount;
 	}
