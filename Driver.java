@@ -23,7 +23,7 @@ public class Driver {
 		
 		ArrayList<Vector> vectors = new ArrayList<Vector>();
 		vectors.add(new Vector(new double[] {1,1,0},3));
-		vectors.add(new Vector(new double[] {0,1,1},3));
+		vectors.add(new Vector(new double[] {1,1,1},3));
 		vectors.add(new Vector(new double[] {1,0,1},3));
 		
 		Vector constants = new Vector(3);

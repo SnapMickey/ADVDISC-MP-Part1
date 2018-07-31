@@ -76,6 +76,13 @@ public class Vector {
 		System.out.println("\n");
 	}
 	
+	public static int checkIfZeroVector(Vector v) {
+		for(int i = 0; i < v.vector.length; i++) 
+			if(v.vector[i] != 0)
+				return i;
+		return -1;
+	}
+	
 	public static Vector Gauss_Jordan(ArrayList<Vector> vectors, int dimension, Vector constants) {
 		Vector returnVector = constants;
 		printVectors(vectors,constants);
@@ -84,35 +91,33 @@ public class Vector {
 			return null;
 		
 		for(int i = 0; i < vectors.size(); i++) {
-			System.out.println(i);
+		
 			// Mismatch of vectors size and given dimension
 			if(vectors.get(i).vector.length != dimension) 
 				return null;
 			
-			int k = i;
-			int j = 0;
-			while(vectors.get(i).vector[j] == 0) {
-				if(k == vectors.size() || i == vectors.size()) {
-					returnVector = null;
-					return returnVector;
-				}
+			int leadIndex = checkIfZeroVector(vectors.get(i));
+			int j = i + 1;
+			while(leadIndex == -1) {
+				if(j == vectors.size())
+					return null;
 				
-				if(j == vectors.get(i).vector.length) {
-					swapRow(vectors, constants, i, k);
+				leadIndex = checkIfZeroVector(vectors.get(j));
+				
+				if(leadIndex == -1) 
 					returnVector = null;
-					j = 0;
-					k++;
-				}
-				else {
+				else if(leadIndex != 1)
+					swapRow(vectors, constants, i, j);
+				else
 					j++;
-				}
 			}
-
-			double leadNum = vectors.get(i).vector[j];
-			scaleRow(vectors, constants, 1/leadNum, i);
 			
+			double leadNum, curNum;
+			leadNum = vectors.get(i).vector[leadIndex];
+			scaleRow(vectors, constants, 1/leadNum, i);
+
 			for(int h = 0; h < vectors.size(); h++) {
-				double curNum = vectors.get(h).vector[j];
+				curNum = vectors.get(h).vector[leadIndex];	
 				if(h != i && curNum != 0) 
 					addScaledRowToRow(vectors, constants, -1 * curNum, h, i);
 			}
