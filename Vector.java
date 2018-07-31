@@ -123,10 +123,10 @@ public class Vector {
 			leadNum = vectors.get(i).vector[leadIndex];
 			scaleRow(vectors, constants, 1/leadNum, i);
 
-			for(int h = 0; h < vectors.size(); h++) {
-				curNum = vectors.get(h).vector[leadIndex];	
-				if(h != i && curNum != 0) 
-					addScaledRowToRow(vectors, constants, -1 * curNum, h, i);
+			for(j = i + 1; j < vectors.size(); j++) {
+				curNum = vectors.get(j).vector[leadIndex];	
+				if(curNum != 0) 
+					addScaledRowToRow(vectors, constants, -1 * curNum, j, i);
 			}
 			
 			printVectors(vectors,constants);
@@ -137,6 +137,21 @@ public class Vector {
 				for(int j = i; j <  vectors.size(); j++) 
 					if(vectors.get(j).vector[i] == 1) 
 						swapRow(vectors, constants, i, j);
+		
+		for(int i = vectors.size() - 1; i >= 0 ; i--) {
+			int leadIndex = checkIfZeroVector(vectors.get(i));
+			if(leadIndex != -1) {
+				for(int j = i - 1; j >= 0; j--) {
+					
+					System.out.println(j);
+					System.out.println(leadIndex);
+					double curNum = vectors.get(j).vector[leadIndex];	
+					if(curNum != 0) 
+						addScaledRowToRow(vectors, constants, -1 * curNum, j, i);
+				}
+			}
+			
+		}
 		
 		printVectors(vectors,constants);
 		
