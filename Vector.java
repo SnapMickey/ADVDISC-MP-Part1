@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/*
+ * BARRERA, Angelo Gabriel G.
+ * RIVERA, Jared S.
+ * SECUYA, Alfonso C.
+ * ADVDISC S17
+ */
 public class Vector {
 	public double[] vector;
 	public final int dimension;
@@ -83,15 +89,24 @@ public class Vector {
 		return -1;
 	}
 
-	public static Vector Gauss_Jordan(ArrayList<Vector> vectors, int dimension, Vector constants) {
+	public static Vector Gauss_Jordan(ArrayList<Vector> vec, int dimension, Vector constants) {
 		Vector returnVector = constants;
-		printVectors(vectors,constants);
+		//printVectors(vectors,constants);
 		
 		// Mismatch of vectors size and constants size
-		if(vectors.size() != constants.vector.length) 
+		if(vec.size() != constants.vector.length) 
 			return null;
-		else if(vectors.size() != dimension) 
+		else if(vec.size() != dimension) 
 			returnVector = null;
+		
+		//Transposing the row vectors to column vectors
+		ArrayList<Vector> vectors = new ArrayList();
+		for(int i = 0; i < vec.size(); i++) {
+			Vector v = new Vector(dimension);
+			for(int j = 0; j < dimension; j++) 
+			  v.vector[j] = vec.get(j).vector[i];
+			vectors.add(v);
+		}
 		
 		for(int i = 0; i < vectors.size(); i++) {
 		
@@ -117,8 +132,9 @@ public class Vector {
 				}
 				else if(leadIndex != -1)
 					swapRow(vectors, constants, i, j);
-				else 
+				else{
 					j++;
+				}
 			}
 			
 			if(leadIndex != -1) {
@@ -133,7 +149,7 @@ public class Vector {
 				}
 			}
 			
-			printVectors(vectors,constants);
+			//printVectors(vectors,constants);
 		}
 		
 		for(int i = 0; i < vectors.size(); i++) 
@@ -156,7 +172,7 @@ public class Vector {
 			
 		}
 		
-		printVectors(vectors,constants);
+		//printVectors(vectors,constants);
 		
 		return returnVector;
 	}
@@ -183,8 +199,223 @@ public class Vector {
 				spanCount++;
 		}
 		
-		System.out.println("SPAN: " + spanCount);
+		//System.out.println("SPAN: " + spanCount);
 		return spanCount;
+	}
+	
+	public static ArrayList<Double> Gauss_Jordan_Det(ArrayList<Vector> vec, int dimension, Vector constants) {
+		ArrayList<Double> swapscale = new ArrayList<Double>();
+		swapscale.add(1.0);
+		swapscale.add(1.0);
+		
+		Vector returnVector = constants;
+		//printVectors(vectors,constants);
+		
+		// Mismatch of vectors size and constants size
+		if(vec.size() != constants.vector.length) 
+			return null;
+		else if(vec.size() != dimension) 
+			returnVector = null;
+		
+		//Transposing the row vectors to column vectors
+		ArrayList<Vector> vectors = new ArrayList();
+		for(int i = 0; i < vec.size(); i++) {
+			Vector v = new Vector(dimension);
+			for(int j = 0; j < dimension; j++) 
+			  v.vector[j] = vec.get(j).vector[i];
+			vectors.add(v);
+		}
+				
+		for(int i = 0; i < vectors.size(); i++) {
+		
+			// Mismatch of vectors size and given dimension
+			if(vectors.get(i).vector.length != dimension) 
+				return null;
+			
+			int leadIndex = checkIfZeroVector(vectors.get(i));
+			int j = i + 1;
+			
+			while(leadIndex == -1) {
+				
+				if(j == vectors.size()) {
+					returnVector = null;
+					break;
+				}
+				
+				leadIndex = checkIfZeroVector(vectors.get(j));
+				
+				if(leadIndex == -1) {
+					returnVector = null;
+					j++;
+				}
+				else if(leadIndex != -1){
+					swapRow(vectors, constants, i, j);
+				}
+				else {
+					j++;
+				}
+			}
+			
+			if(leadIndex != -1) {
+				double leadNum, curNum;
+				leadNum = vectors.get(i).vector[leadIndex];
+				scaleRow(vectors, constants, 1.0/leadNum, i);
+				swapscale.set(1,swapscale.get(1)*1.0/leadNum);
+				System.out.println("LEADNUM: " + 1.0/leadNum);
+				for(j = i + 1; j < vectors.size(); j++) {
+					curNum = vectors.get(j).vector[leadIndex];	
+					if(curNum != 0) 
+						addScaledRowToRow(vectors, constants, -1.0 * curNum, j, i);
+				}
+			}
+			else {
+				swapscale.set(1, swapscale.get(1)*0.0);
+			}
+			
+			//printVectors(vectors,constants);
+		}
+		
+		for(int i = 0; i < vectors.size(); i++) 
+			if(vectors.get(i).vector[i] != 1) 
+				for(int j = i; j < vectors.size(); j++) 
+					if(vectors.get(j).vector[i] == 1) {
+						swapRow(vectors, constants, i, j);
+						swapscale.set(0, swapscale.get(0)*-1);
+						break;
+					}
+		
+		for(int i = vectors.size() - 1; i >= 0 ; i--) {
+			int leadIndex = checkIfZeroVector(vectors.get(i));
+			if(leadIndex != -1) {
+				for(int j = i - 1; j >= 0; j--) {
+					double curNum = vectors.get(j).vector[leadIndex];	
+					if(curNum != 0) 
+						addScaledRowToRow(vectors, constants, -1.0 * curNum, j, i);
+				}
+			}
+			
+		}
+		
+		//printVectors(vectors,constants);
+		for(int i=0; i < swapscale.size(); i++){
+			System.out.println(swapscale.get(i));
+		}
+		return swapscale;
+	}
+	
+	public static ArrayList<Vector> Gauss_Jordan_Inverse(ArrayList<Vector> vec, int dimension, Vector constants) {
+		Vector returnVector = constants;
+		//printVectors(vectors,constants);
+
+		// Mismatch of vectors size and constants size
+		if(vec.size() != constants.vector.length) 
+			return null;
+		else if(vec.size() != dimension) 
+			returnVector = null;
+		
+		//Transposing the row vectors to column vectors
+		ArrayList<Vector> vectors = new ArrayList();
+		for(int i = 0; i < vec.size(); i++) {
+			Vector v = new Vector(dimension);
+			for(int j = 0; j < dimension; j++) 
+			  v.vector[j] = vec.get(j).vector[i];
+			vectors.add(v);
+		}
+
+				
+		//set up augment matrix as identity matrix
+		ArrayList<Vector> augment = new ArrayList<>();
+		for (int i = 0; i < dimension; i++) {
+			double[] temp = new double[dimension];
+			for (int j = 0; j < dimension; j++) {
+				temp[j] = 0;
+				if (j == i)
+					temp[j] = 1;
+			}
+			augment.add(new Vector(temp, dimension));
+		}
+		
+		for(int i = 0; i < vectors.size(); i++) {
+
+			// Mismatch of vectors size and given dimension
+			if(vectors.get(i).vector.length != dimension)
+				return null;
+
+			int leadIndex = checkIfZeroVector(vectors.get(i));
+			int j = i + 1;
+
+			while(leadIndex == -1) {
+
+				if(j == vectors.size()) {
+					returnVector = null;
+					break;
+				}
+
+				leadIndex = checkIfZeroVector(vectors.get(j));
+
+				if(leadIndex == -1) {
+					returnVector = null;
+					j++;
+				}
+				else if(leadIndex != -1) {
+					swapRow(vectors, constants, i, j);
+					swapRow(augment, constants, i, j);
+					//not sure if it's fine to invoke constants swap here
+					//but since we're delaing with an empty constants list i think it's okay?
+				}
+				else{
+					j++;
+				}
+			}
+
+			if(leadIndex != -1) {
+				double leadNum, curNum;
+				leadNum = vectors.get(i).vector[leadIndex];
+				scaleRow(vectors, constants, 1.0/leadNum, i);
+				scaleRow(augment, constants, 1.0/leadNum, i);
+				System.out.println("LEADNUM: " + 1.0/leadNum);
+				for(j = i + 1; j < vectors.size(); j++) {
+					curNum = vectors.get(j).vector[leadIndex];
+					if(curNum != 0) {
+						addScaledRowToRow(vectors, constants, -1.0 * curNum, j, i);
+						addScaledRowToRow(augment, constants, -1.0 * curNum, j, i);
+					}
+				}
+			}
+
+			//printVectors(vectors,constants);
+		}
+
+		for(int i = 0; i < vectors.size(); i++)
+			if(vectors.get(i).vector[i] != 1)
+				for(int j = i; j < vectors.size(); j++)
+					if(vectors.get(j).vector[i] == 1) {
+						swapRow(vectors, constants, i, j);
+						swapRow(augment, constants, i, j);
+						break;
+					}
+
+		for(int i = vectors.size() - 1; i >= 0 ; i--) {
+			int leadIndex = checkIfZeroVector(vectors.get(i));
+			if(leadIndex != -1) {
+				for(int j = i - 1; j >= 0; j--) {
+					double curNum = vectors.get(j).vector[leadIndex];
+					if(curNum != 0) {
+						addScaledRowToRow(vectors, constants, -1.0 * curNum, j, i);
+						addScaledRowToRow(augment, constants, -1.0 * curNum, j, i);
+					}
+				}
+			}
+
+		}
+
+		//printVectors(vectors,constants);
+		
+		for(Vector v : vectors) 
+			if(Vector.checkIfZeroVector(v) == -1)
+				return null;
+		
+		return augment;
 	}
 	
 	
