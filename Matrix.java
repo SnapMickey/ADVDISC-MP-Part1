@@ -41,8 +41,8 @@ public class Matrix {
 	public Matrix(ArrayList<Vector> list, int dimension){
 		this.matrix = new Vector[list.size()];
 		this.listMatrix = new ArrayList<Vector>();
-		this.rows = list.size();
-		this.cols = dimension;
+		this.rows = dimension;
+		this.cols = list.size();
 		
 		for(int i=0; i < list.size(); i++){
 			this.matrix[i] = list.get(i);
@@ -52,23 +52,27 @@ public class Matrix {
 	public Matrix times(Matrix other){
 		if(this.cols == other.rows){
 		ArrayList<Vector> vectors = new ArrayList<Vector>();
-		for(int i=0; i < this.rows; i++){
+		for(int i=0; i < other.cols; i++){
 			double[] vectorVal = new double[other.cols];
 			Arrays.fill(vectorVal, 0);
-			for(int j=0; j < other.cols; j++){
+			for(int j=0; j < this.rows; j++){
 				for(int k=0; k < this.cols; k++){
-					vectorVal[j] += this.matrix[i].vector[k] * other.matrix[k].vector[j];
+					//vectorVal[j] += this.matrix[i].vector[k] * other.matrix[k].vector[j];
+					vectorVal[j] += this.matrix[k].vector[j] * other.matrix[i].vector[k];
 					System.out.println(i + " " + k);
-					System.out.println("HERE: " + this.matrix[i].vector[k]);
-					System.out.println("HERE: " + other.matrix[k].vector[j]);
+					System.out.println("HERE: " + this.matrix[k].vector[j]);
+					System.out.println("HERE: " + other.matrix[i].vector[k]);
+					//System.out.println(this.matrix[k].vector[j] * other.matrix[i].vector[k]);
 				}
+				//System.out.println(vectorVal[0] + " " + vectorVal[1] + " " + vectorVal[2] + " " + vectorVal[3]);
 			}
+			//System.out.println(vectorVal[0] + " " + vectorVal[1] + " " + vectorVal[2] + " " + vectorVal[3]);
 			vectors.add(new Vector(vectorVal, other.cols));
 		}
 		
 		for(int i=0; i < vectors.size(); i++){
 			for(int j=0; j < vectors.get(i).vector.length; j++){
-				System.out.print(vectors.get(i).vector[j] + " ");
+				System.out.print(vectors.get(j).vector[i] + " ");
 			}
 			System.out.println(" ");
 		}

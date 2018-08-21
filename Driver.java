@@ -25,7 +25,7 @@ public class Driver {
 //		
 //		Vector resultV = Vector.Gauss_Jordan(vectors, 3, c);
 		
-		ArrayList<Vector> vectors = new ArrayList<Vector>();
+		/*ArrayList<Vector> vectors = new ArrayList<Vector>();
 		vectors.add(new Vector(new double[] {1,2,2,3},4));
 		vectors.add(new Vector(new double[] {2,4,4,2},4));
 		vectors.add(new Vector(new double[] {1,2,2,3},4));
@@ -46,28 +46,28 @@ public class Driver {
 			System.out.println(result);
 		}
 		else
-			System.out.println("System is Inconsistent");
+			System.out.println("System is Inconsistent");*/
 
 		
 		//Vector constants = new Vector(4);
 		//Vector.printVectors(vectors, constants);
 		
 		//Vector.span(vectors, 3);*/
-		/*ArrayList<Vector> vector1 = new ArrayList<Vector>();
-		vector1.add(new Vector(new double[] {5,2,6,1}, 4));
-		vector1.add(new Vector(new double[] {0,6,2,0}, 4));
-		vector1.add(new Vector(new double[] {3,8,1,4}, 4));
-		vector1.add(new Vector(new double[] {1,8,5,6}, 4));
+		ArrayList<Vector> vector1 = new ArrayList<Vector>();
+		vector1.add(new Vector(new double[] {5,2,6,1}, 4));			// 5 0 3 1
+		vector1.add(new Vector(new double[] {0,6,2,0}, 4));			// 2 6 8 8
+		vector1.add(new Vector(new double[] {3,8,1,4}, 4));			// 6 2 1 5
+		vector1.add(new Vector(new double[] {1,8,5,6}, 4));			// 1 0 4 6
 		Matrix matrix1 = new Matrix(vector1,4);
 		
 		ArrayList<Vector> vector2 = new ArrayList<Vector>();
-		vector2.add(new Vector(new double[] {7,5,8,0}, 4));
-		vector2.add(new Vector(new double[] {1,8,2,6}, 4));
-		vector2.add(new Vector(new double[] {9,4,3,8}, 4));
-		vector2.add(new Vector(new double[] {5,3,7,9}, 4));
+		vector2.add(new Vector(new double[] {7,5,8,0}, 4));			// 7 1 9 5
+		vector2.add(new Vector(new double[] {1,8,2,6}, 4));			// 5 8 4 3
+		vector2.add(new Vector(new double[] {9,4,3,8}, 4));			// 8 2 3 7
+		vector2.add(new Vector(new double[] {5,3,7,9}, 4));			// 0 6 8 9
 		Matrix matrix2 = new Matrix(vector2,4);
 		
-		matrix1.times(matrix2);*/
+		matrix1.times(matrix2);
 		//new Matrix(10);
 //		ArrayList<Vector> vector1 = new ArrayList<Vector>();
 //		vector1.add(new Vector(new double[] {1,3}, 2));
