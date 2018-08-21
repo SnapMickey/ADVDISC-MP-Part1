@@ -94,12 +94,12 @@ public class Vector {
 		//printVectors(vectors,constants);
 		
 		// Mismatch of vectors size and constants size
-		if(vec.size() != constants.vector.length) 
+		if(vec.get(0).dimension != constants.vector.length) 
 			return null;
 		else if(vec.size() != dimension) 
 			returnVector = null;
 		
-		//Transposing the row vectors to column vectors
+		//Transposing the column vectors to column row vectors
 		ArrayList<Vector> vectors = new ArrayList();
 		for(int i = 0; i < vec.size(); i++) {
 			Vector v = new Vector(dimension);
@@ -212,7 +212,7 @@ public class Vector {
 		//printVectors(vectors,constants);
 		
 		// Mismatch of vectors size and constants size
-		if(vec.size() != constants.vector.length) 
+		if(vec.get(0).dimension != constants.vector.length) 
 			return null;
 		else if(vec.size() != dimension) 
 			returnVector = null;
@@ -261,7 +261,7 @@ public class Vector {
 				leadNum = vectors.get(i).vector[leadIndex];
 				scaleRow(vectors, constants, 1.0/leadNum, i);
 				swapscale.set(1,swapscale.get(1)*1.0/leadNum);
-				System.out.println("LEADNUM: " + 1.0/leadNum);
+				//System.out.println("LEADNUM: " + 1.0/leadNum);
 				for(j = i + 1; j < vectors.size(); j++) {
 					curNum = vectors.get(j).vector[leadIndex];	
 					if(curNum != 0) 
@@ -296,10 +296,6 @@ public class Vector {
 			
 		}
 		
-		//printVectors(vectors,constants);
-		for(int i=0; i < swapscale.size(); i++){
-			System.out.println(swapscale.get(i));
-		}
 		return swapscale;
 	}
 	
@@ -308,12 +304,12 @@ public class Vector {
 		//printVectors(vectors,constants);
 
 		// Mismatch of vectors size and constants size
-		if(vec.size() != constants.vector.length) 
+		if(vec.get(0).dimension != constants.vector.length) 
 			return null;
 		else if(vec.size() != dimension) 
 			returnVector = null;
 		
-		//Transposing the row vectors to column vectors
+		//Transposing the column vectors to row vectors
 		ArrayList<Vector> vectors = new ArrayList();
 		for(int i = 0; i < vec.size(); i++) {
 			Vector v = new Vector(dimension);
@@ -373,7 +369,7 @@ public class Vector {
 				leadNum = vectors.get(i).vector[leadIndex];
 				scaleRow(vectors, constants, 1.0/leadNum, i);
 				scaleRow(augment, constants, 1.0/leadNum, i);
-				System.out.println("LEADNUM: " + 1.0/leadNum);
+				//System.out.println("LEADNUM: " + 1.0/leadNum);
 				for(j = i + 1; j < vectors.size(); j++) {
 					curNum = vectors.get(j).vector[leadIndex];
 					if(curNum != 0) {

@@ -1,3 +1,9 @@
+/*
+ * BARRERA, Angelo Gabriel G.
+ * RIVERA, Jared S.
+ * SECUYA, Alfonso C.
+ * ADVDISC S17
+ */
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,7 +48,7 @@ public class Matrix {
 		this.matrix = new Vector[list.size()];
 		this.listMatrix = new ArrayList<Vector>();
 		this.rows = dimension;
-		this.cols = list.size();
+		this.cols = list.get(0).vector.length;
 		
 		for(int i=0; i < list.size(); i++){
 			this.matrix[i] = list.get(i);
@@ -82,15 +88,16 @@ public class Matrix {
 		}
 		return null;
 	}
-	public double det(){
+
+	public Double det(){
 		ArrayList<Double>swapscale = Vector.Gauss_Jordan_Det(listMatrix,listMatrix.get(0).vector.length, new Vector(listMatrix.size()));
-		
-		for(int i=0; i < swapscale.size(); i++){
-			System.out.println(swapscale.get(i));
+		try {
+			if(swapscale.get(0) == 0 || swapscale.get(1) == 0)
+				return (double) 0;
+			return (double)swapscale.get(0)*(1/swapscale.get(1));
+		} catch(Exception e) {
+			return (Double) null;
 		}
-		
-		System.out.println(swapscale.get(0)*(1/swapscale.get(1)));
-		return 0;
 	}
 	
 	public Matrix inverse(){
@@ -107,8 +114,10 @@ public class Matrix {
 		
 		for(int i = 0; i < rows; i++) {
 			Vector nVec = new Vector(cols);
+			
 			for(int j = 0; j < cols; j++) 
-				nVec.vector[j] = matrix[j].vector[i];
+				nVec.vector[j] = matrix[i].vector[j];
+
 			temp.add(nVec);
 		}
 		
